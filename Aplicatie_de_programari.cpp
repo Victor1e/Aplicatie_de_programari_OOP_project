@@ -66,6 +66,7 @@ public:
     vector<Package> getPackages() const {
         return packages;
     }
+    friend istream& operator>>(istream& in, Barber& barber);
 };
 
 class Appointment {
@@ -119,7 +120,17 @@ public:
     }
 };
 
+istream& operator>>(istream& in, Barber& barber){
+    in>>barber.firstName;
+    in>>barber.lastName;
+    return in;
+}
+
 void addBarber(vector<Barber>& barbers) {
+    Barber newBarber;
+    cout<<"Numele Frizerului: ";
+    cin>>newBarber;
+    /*
     Barber newBarber;
     cout << "Numele Frizerului: ";
     string firstName, lastName;
@@ -128,6 +139,7 @@ void addBarber(vector<Barber>& barbers) {
     cout << "Prenumele Frizerului: ";
     cin >> lastName;
     newBarber.setLastName(lastName);
+    */
     int numPackages;
     cout << "Cate pachete de tuns stie frizerul?: ";
     cin >> numPackages;
