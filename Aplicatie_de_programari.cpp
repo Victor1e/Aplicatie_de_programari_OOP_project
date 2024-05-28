@@ -9,62 +9,66 @@
 using namespace std;
 
 
-class PositiveComment {
+class Comment {
+public:
+    virtual void displayComment() const = 0;
+    virtual string getComment() const = 0;
+    virtual ~Comment() = default;
+};
+
+class PositiveComment : public Comment {
 private:
     string commentText;
 
 public:
     PositiveComment(const string& text) : commentText(text) {}
 
-    void displayComment() const {
+    void displayComment() const override {
         cout << "Comentariu pozitiv: " << commentText << endl;
     }
 
-    string getComment() const {
+    string getComment() const override {
         return commentText;
     }
 };
-class NegativeComment {
+
+
+class NegativeComment : public Comment {
 private:
     string commentText;
 
 public:
     NegativeComment(const string& text) : commentText(text) {}
 
-    void displayComment() const {
+    void displayComment() const override {
         cout << "Comentariu negativ: " << commentText << endl;
     }
 
-    string getComment() const {
+    string getComment() const override {
         return commentText;
     }
 };
+
+// Composite
 class CommentSystem {
 private:
-    vector<PositiveComment> positiveComments;
-    vector<NegativeComment> negativeComments;
-
+    vector<Comment*> comments;
 
 public:
-    void addPositiveComment(const PositiveComment& comment) {
-        positiveComments.push_back(comment);
+    ~CommentSystem() {
+        for (Comment* comment : comments) {
+            delete comment;
+        }
     }
 
-    void addNegativeComment(const NegativeComment& comment) {
-        negativeComments.push_back(comment);
+    void addComment(Comment* comment) {
+        comments.push_back(comment);
     }
 
     void displayAllComments() const {
         cout << "Toate comentarile:" << endl;
-
-        cout << "\nComentarii pozitive:" << endl;
-        for (const auto& comment : positiveComments) {
-            comment.displayComment();
-        }
-
-        cout << "\nComentarii negative:" << endl;
-        for (const auto& comment : negativeComments) {
-            comment.displayComment();
+        for (const auto& comment : comments) {
+            comment->displayComment();
         }
     }
 };
@@ -459,6 +463,7 @@ void displayAppointments(const vector<Appointment>& appointments) {
     }
 }
 
+//Factory Method
 class Barber_Shop{
 private:
     vector<Barber*> barbers;
@@ -686,15 +691,21 @@ int main() {
                             cout<<"Scrie comentariul "<<endl;
                             string comentariu;
                             getline(cin,comentariu);
+                            commentSystem.addComment(new NegativeComment(comentariu));
+                            /*
                             NegativeComment negativecomment(comentariu);
                             commentSystem.addNegativeComment(negativecomment);
+                             */
 
                         }else{
                             cout<<"Scrie comentariul "<<endl;
                             string comentariu;
                             getline(cin,comentariu);
+                            commentSystem.addComment(new PositiveComment(comentariu));
+                            /*
                             PositiveComment positivecomment (comentariu);
                             commentSystem.addPositiveComment(positivecomment);
+                             */
                         }
                         cout<<"Ati scris comentariul"<<endl;
                     }else{
