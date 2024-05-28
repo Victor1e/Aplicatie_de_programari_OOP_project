@@ -44,6 +44,7 @@ private:
     vector<PositiveComment> positiveComments;
     vector<NegativeComment> negativeComments;
 
+
 public:
     void addPositiveComment(const PositiveComment& comment) {
         positiveComments.push_back(comment);
@@ -68,7 +69,7 @@ public:
     }
 };
 
-
+//Singleton
 class Produse_curatenie{
 private:
     string nume;
@@ -136,7 +137,16 @@ class Produse{
 private:
     vector <Produse_curatenie> produse_curatenie;
     vector <Produse_par> produse_par;
+    static Produse* instance;
+    Produse() {}
 public:
+    static Produse* getInstance() {
+        if (instance == nullptr) {
+            instance = new Produse();
+        }
+        return instance;
+    }
+
     void add_poduuse_curatenie(vector<Produse_curatenie>& produse_curatenie){
         cout<<"Doriti sa adaugati un produs de curatenie:"<<endl;
         cout<<"Cum se numeste produsul?"<<endl;
@@ -597,7 +607,7 @@ public:
 
 };
 
-
+Produse* Produse::instance = nullptr;
 int main() {
     vector<Barber*> barbers;
     vector<Appointment> appointments;
@@ -605,7 +615,7 @@ int main() {
     vector<Produse_par> produse_par;
     Barber_Shop barber_shop;
     CommentSystem commentSystem;
-    Produse produse;
+    Produse* produse = Produse::getInstance();
     string frizerie;
     cout<<"Cum se numeste Frizeria?";
     getline(cin,frizerie);
@@ -648,13 +658,13 @@ int main() {
                     displayAppointments(appointments);
                     break;
                 case 5:
-                    produse.add_poduuse_curatenie(produse_curatenie);
+                    produse->add_poduuse_curatenie(produse_curatenie);
                     break;
                 case 6:
-                    produse.add_poduuse_par(produse_par);
+                    produse->add_poduuse_par(produse_par);
                     break;
                 case 7:
-                    produse.calcul_pret_produs(produse_curatenie,produse_par);
+                    produse->calcul_pret_produs(produse_curatenie,produse_par);
                     break;
                 case 8:
                     cout<<"1.Scrie un comentariu:"<<endl;
