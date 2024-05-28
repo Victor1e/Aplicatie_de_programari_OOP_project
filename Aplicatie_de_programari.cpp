@@ -451,9 +451,10 @@ bool cmp(const Appointment& appointment1,const Appointment& appointment2){
 }
 
 void displayAppointments(const vector<Appointment>& appointments) {
-
+    vector<Appointment> appointments2(appointments.size());
+    copy(appointments.begin(), appointments.end(), appointments2.begin());
     cout << "Programari:" << endl;
-    for (const auto& appointment : appointments) {
+    for (const auto& appointment : appointments2) {
         cout << "Nume: " << appointment.getFirstName()<< " " << appointment.getLastName() << endl;
         cout << "Frizer: " << appointment.getBarber()->getFirstName() << " " << appointment.getBarber()->getLastName() << endl;
         cout << "Pachet: " << appointment.getPackage().getName() << " ("
@@ -612,6 +613,7 @@ public:
 
 };
 
+
 Produse* Produse::instance = nullptr;
 int main() {
     vector<Barber*> barbers;
@@ -648,6 +650,7 @@ int main() {
                     barber_shop.addBarber(barbers);
                     break;
                 case 2:
+
                     displayBarbers(barbers);
                     break;
                 case 3:
