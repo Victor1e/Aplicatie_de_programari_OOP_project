@@ -3,6 +3,8 @@
 #include <cstring>
 #include <string>
 #include <exception>
+#include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -418,8 +420,6 @@ istream& operator>>(istream& in, Barber& barber){
     return in;
 }
 
-
-
 void displayBarbers(const vector<Barber*>& barbers) {
     cout << "Frizeri:" << endl;
     for (const auto& barber : barbers) {
@@ -432,9 +432,12 @@ void displayBarbers(const vector<Barber*>& barbers) {
     }
 }
 
-
+bool cmp(const Appointment& appointment1,const Appointment& appointment2){
+    return appointment1.getHour() < appointment2.getHour();
+}
 
 void displayAppointments(const vector<Appointment>& appointments) {
+
     cout << "Programari:" << endl;
     for (const auto& appointment : appointments) {
         cout << "Nume: " << appointment.getFirstName()<< " " << appointment.getLastName() << endl;
@@ -445,10 +448,11 @@ void displayAppointments(const vector<Appointment>& appointments) {
         cout << endl;
     }
 }
+
 class Barber_Shop{
 private:
     vector<Barber*> barbers;
-    vector<Appointment> appointments;
+    list<Appointment> appointments;
 public:
     void addAppointment(const vector<Barber*>& barbers, vector<Appointment>& appointments) {
         Appointment newAppointment;
@@ -640,6 +644,7 @@ int main() {
                     }
                     break;
                 case 4:
+                    sort(appointments.begin(), appointments.end(), cmp);
                     displayAppointments(appointments);
                     break;
                 case 5:
