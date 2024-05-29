@@ -137,10 +137,16 @@ public:
         return cantitate;
     }
 };
+
+template <typename T>
+T add(T a, T b) {
+    return a * b;
+}
+
 class Produse{
 private:
     vector <Produse_curatenie> produse_curatenie;
-    vector <Produse_par> produse_par;
+    vector <Produse_par> produse_par; 
     static Produse* instance;
     Produse() {}
 public:
@@ -200,7 +206,7 @@ public:
             cout<<"Alegerea ta este?"<<endl;
             int alegere;
             cin>>alegere;
-            int pret=produse_curatenie[alegere].getPrice()*produse_curatenie[alegere].getCantitate();
+            int pret=add(produse_curatenie[alegere].getPrice(),produse_curatenie[alegere].getCantitate());
             cout<<"Pretul total este: "<<pret<<"lei"<<endl;
 
         }
@@ -612,6 +618,7 @@ public:
     }
 
 };
+
 
 
 Produse* Produse::instance = nullptr;
