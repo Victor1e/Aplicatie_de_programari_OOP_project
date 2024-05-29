@@ -9,6 +9,9 @@
 using namespace std;
 
 
+
+
+
 class Comment {
 public:
     virtual void displayComment() const = 0;
@@ -16,6 +19,7 @@ public:
     virtual ~Comment() = default;
 };
 
+// Clasa PositiveComment
 class PositiveComment : public Comment {
 private:
     string commentText;
@@ -32,7 +36,7 @@ public:
     }
 };
 
-
+// Clasa NegativeComment
 class NegativeComment : public Comment {
 private:
     string commentText;
@@ -50,18 +54,19 @@ public:
 };
 
 // Composite
+template <typename T>
 class CommentSystem {
 private:
-    vector<Comment*> comments;
+    vector<T*> comments;
 
 public:
     ~CommentSystem() {
-        for (Comment* comment : comments) {
+        for (T* comment : comments) {
             delete comment;
         }
     }
 
-    void addComment(Comment* comment) {
+    void addComment(T* comment) {
         comments.push_back(comment);
     }
 
@@ -146,7 +151,7 @@ T add(T a, T b) {
 class Produse{
 private:
     vector <Produse_curatenie> produse_curatenie;
-    vector <Produse_par> produse_par; 
+    vector <Produse_par> produse_par;
     static Produse* instance;
     Produse() {}
 public:
@@ -628,7 +633,8 @@ int main() {
     vector<Produse_curatenie> produse_curatenie;
     vector<Produse_par> produse_par;
     Barber_Shop barber_shop;
-    CommentSystem commentSystem;
+    CommentSystem<NegativeComment> negativeCommentSystem;
+    CommentSystem<PositiveComment> positiveCommentSystem;
     Produse* produse = Produse::getInstance();
     string frizerie;
     cout<<"Cum se numeste Frizeria?";
@@ -701,8 +707,11 @@ int main() {
                             cout<<"Scrie comentariul "<<endl;
                             string comentariu;
                             getline(cin,comentariu);
-                            commentSystem.addComment(new NegativeComment(comentariu));
+
+                            negativeCommentSystem.addComment(new NegativeComment(comentariu));
                             /*
+                            commentSystem.addComment(new NegativeComment(comentariu));
+
                             NegativeComment negativecomment(comentariu);
                             commentSystem.addNegativeComment(negativecomment);
                              */
@@ -711,8 +720,11 @@ int main() {
                             cout<<"Scrie comentariul "<<endl;
                             string comentariu;
                             getline(cin,comentariu);
-                            commentSystem.addComment(new PositiveComment(comentariu));
+
+                            positiveCommentSystem.addComment(new PositiveComment(comentariu));
                             /*
+                            commentSystem.addComment(new PositiveComment(comentariu));
+
                             PositiveComment positivecomment (comentariu);
                             commentSystem.addPositiveComment(positivecomment);
                              */
@@ -720,7 +732,8 @@ int main() {
                         cout<<"Ati scris comentariul"<<endl;
                     }else{
                         cout<<"Acestea sunt comentariile"<<endl;
-                        commentSystem.displayAllComments();
+                        positiveCommentSystem.displayAllComments();
+                        negativeCommentSystem.displayAllComments();
                     }
                     break;
                 case 9:
